@@ -112,3 +112,17 @@ class Trending_Design(APIView):
             return Response(serialized_designs.data, status = status.HTTP_200_OK)
         else:
             return Response({"detail": "No designs"}, status = status.HTTP_404_NOT_FOUND)
+
+class Like_Design(APIView):
+    def get(self, request, design, *args, **kwargs):
+        design_obj = Design_Model.objects.filter(id = design)
+        design_obj.like += 1
+        design_obj.save(update_fields=['like'])
+        return Response(status=status.HTTP_200_OK)       
+
+class Disike_Design(APIView):
+    def get(self, request, design, *args, **kwargs):
+        design_obj = Design_Model.objects.filter(id = design)
+        design_obj.dislike += 1
+        design_obj.save(update_fields=['dislike'])
+        return Response(status=status.HTTP_200_OK)       
